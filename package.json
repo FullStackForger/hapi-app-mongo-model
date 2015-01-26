@@ -1,0 +1,20 @@
+{
+  "name": "hapi-app-mongo-models",
+  "version": "0.1.0",
+  "description": "Lightweight abstraction layer over native MongoDB driver for Hapi App",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "hapi",
+    "hapi-app",
+    "mongodb",
+    "model"
+  ],
+  "author": "",
+  "license": "ISC"
+}
