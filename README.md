@@ -31,6 +31,8 @@ Inspired by:
 
 ## Todo
 
+ - grunt scripts - pending
+ - travis ci - pending
  - Model.plugin - hapi plugin - pending
  - Model.db - shared connection - pending
  - Model.create() - done, no tests
