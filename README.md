@@ -2,7 +2,7 @@
 
 Lightweight abstraction layer over native MongoDB driver for Hapi App
 
-## WORK IN PROGRESS! ##
+## THIS WORK IN PROGRESS
 
 ## Rationale
 
@@ -10,14 +10,32 @@ Most popular ODM for MongoDB manipulations from NodeJS is Mongoose.
 It is build on the top of MongoDB's native driver.
 It is build with tone of features such us object schemas and validation.
 
-Mongoose is however unnecesary if you want to reuse Joi schemas for validating your objects. 
+Mongoose is however unnecesary if you want to reuse Hapi Joi schemas for validating your objects. 
 
 Hapi-app-mongo-model is attempt to provide lightweight abstraction on the top of MongoDB native driver.
 
 ## Core features 
 
- - `Model` class with MongoDB collection methods ( find(), findOne(), ObjectId )
- - Helper methods exposed on `model` objects (save(), update(), remove(), validate())
+ - `Model` is a namespace object exposing MongoDB collection methods returning promise:
+ 	+ `find()`, 
+ 	+ `findOne()`, 
+ 	+ `ObjectId`,
+ 	
+ - `Model` is also a constructor used to create custom `ModelClass`-es
+ - `ModelClass` can be created with:
+	+ `new Model(collectionName, [object])` or
+	+ `Model.generate(collectionName, [object])`
+
+ - DAO helpers are exposed in custom `ModelClass`:
+ 	+  `find()`, 
+	+ `findOne()`
+
+ - Helper methods available on `modelObject`:
+ 	+ `save()`, 
+ 	+ `update()`, 
+ 	+ `remove()`, 
+ 	+ `validate()`
+
  - Ease of extensibility of the Helper and DAO methods ( see examples below )
  - All models share one db connection
 
@@ -53,7 +71,7 @@ models/user/schema.js
 
 ```js
 var Model = require('hapi-app-mongo-model'),
-	UserModel = Model.generate("UserModel", __dirname);
+	UserModel = Model.generate("users", __dirname);
 
 module.exports = UserModel;
 ```
@@ -82,7 +100,7 @@ userSchema = {
 	lname: JOi.string()
 }
 module.exports = userSchema;
-```js
+```
 
 ### Creating new user object
 
@@ -97,35 +115,57 @@ user = new User({
 });
 
 console.log('> stringified "user" object')
-console.log(JSON.stringify(user, null, 2);
+console.log(user.toJSON());
 console.log('> fullname() helper output: ' + user.fullName());
 ```
 
 ## User Reference
 
 
+### Hapi plugin `Model.plugin`
+> pending
 
-### example files - pending
-### grunt scripts - pending
-### travis ci - pending
-### Model.plugin - hapi plugin - pending
-### Model.db - shared connection - pending
-### Model.create() - done, docs, no tests
-### Modes.find() - in progress
-### Model.findOne() - in progress
-### Model.ObjectId - pending
-### Model.ObjectID - pending
+### Shared connection `Model.db`
+> pending
 
-### `ModelClass.create()` and `new ModelClass()`
+### Model namespaced methods
+#### Find method `Modes.find()`
+> pending
+
+#### FindOne method `Model.findOne()`
+> pending
+
+#### ObjectId via `Model.ObjectId()` and `Model.ObjectID()`
+> pending
+
+### DAO helpers
+
+#### Createing object via `new ModelClass(collectionName, [object])`
+
+
+#### Createing object via `ModelClass.create(collectionName, [object])` 
+Convinience method for `new ModelClass(collectionName, [object])`
+
 > status: implemented but no tests
 
-### modelObject.save() - pending
-### modelObject.update() - pending
+#### Find `<ModelClass>.find()`
+> pending
 
-### modelObject.validate()
+#### FindOne `<ModelClass>.findOne()`
+> pending
+
+### Model Object helpers
+
+#### Save `<modelObject>.save()`
+> pending
+
+#### Update `<modelObject>.update()`
+> pending
+
+#### Validate `<modelObject>.validate()`
 > status: implemented but no tests
 
-Validate is async and returns promise. Use it as shown below. 
+Validate is async and returns a promise. Use it as shown below. 
 
 ```
 user.validate()
@@ -138,4 +178,7 @@ user.validate()
 	});
 ```
 	
-### modelObject.remove() - pending
+#### Helper `<modelObject>.remove()`
+> pending
+
+

@@ -16,5 +16,8 @@
     "model"
   ],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^1.4.29"
+  }
 }

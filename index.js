@@ -4,7 +4,6 @@ var Hoek = require('hoek'),
 	Model = {},
 	modelHelpers;
 
-
 modelHelpers = {
 	validate : function () {
 		var model = this,
@@ -31,18 +30,18 @@ modelHelpers = {
 
 /**
  * @public
- * @param modelName
+ * @param collectionName
  * @param path 
  * @returns {Model}
  */
-function generateModel(modelName, path) {
+function generateModel(collectionName, path) {
 	var dao, helpers, schema, key, validation, Model;
 
 	if (arguments.length < 2) {
 		throw new Error("'modelName' and 'path' parameters are required. Check Model Schema.");
 	}
 
-	validation = Joi.validate(modelName, Joi.string());
+	validation = Joi.validate(collectionName, Joi.string());
 	if (validation.error != null) {
 		throw new Error("'modelName' parameter error: " + validation.error + ". Check Model Schema.");
 	}
@@ -75,8 +74,8 @@ function generateModel(modelName, path) {
 	Hoek.merge(Model.prototype, helpers);
 
 	// exposed on Model and available from model object
-	Model.name = Model.prototype.name = modelName;
-	Model.schema = Model.prototype.schema = schema;
+	Model.collection = Model.prototype._collection = collectionName;
+	Model.schema = Model.prototype._schema = schema;
 	
 	Model.create = function (data) {
 		return new Model(data); 
