@@ -167,7 +167,7 @@ Convinience method for `new ModelClass(collectionName, [object])`
 #### Validate `<modelObject>.validate()`
 > status: implemented but no tests
 
-`validate()` is async method and returns a promise.
+`validate()` is async method and returns a [promise][git-mpromise-url].
 It can be handled in one of two ways as shown below.
 
 Method 1: `promise.then(onSuccess, onError)`
@@ -193,4 +193,4 @@ user.validate()
 #### Helper `<modelObject>.remove()`
 > pending
 
-
+[git-mpromise-url]: https://github.com/aheckmann/mpromise
