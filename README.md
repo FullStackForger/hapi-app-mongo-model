@@ -193,4 +193,20 @@ user.validate()
 #### Helper `<modelObject>.remove()`
 > pending
 
+## Resources
+
+### Used packages
+
+> 
+> BIG **THANK YOU** TO ALL THE AUTHORS FOR DEVELOPING THOSE GREAT PACKAGES, FOR MAKING CODING EASIER, FASTER AND MORE FUN! 
+> 
+> **CHEEERS!!!**
+> 
+
+- [aheckmann/mpromise][git-mpromise-url]
+
+
+
+
+
 [git-mpromise-url]: https://github.com/aheckmann/mpromise
