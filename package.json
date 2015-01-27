@@ -18,10 +18,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mongodb": "^1.4.29",
-    "mpromise": "^0.5.5",
+	"boom": "^2.6.1",
+	"good": "^5.1.1",
 	"hapi": "^8.1.0",
 	"hoek": "^2.11.0",
-	"joi": "^5.1.0"
+	"joi": "^5.1.0",
+	"mongodb": "^1.4.29",
+	"mpromise": "^0.5.5" 
   }
 }

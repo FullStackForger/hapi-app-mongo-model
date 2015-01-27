@@ -167,19 +167,29 @@ Convinience method for `new ModelClass(collectionName, [object])`
 #### Validate `<modelObject>.validate()`
 > status: implemented but no tests
 
-Validate is async and returns a promise. Use it as shown below. 
+`validate()` is async method and returns a promise.
+It can be handled in one of two ways as shown below.
 
+Method 1: `promise.then(onSuccess, onError)`
 ```
 user.validate()
-	.then(function onSuccess(data) {
-	    console.log('\nuser.validate() helper success output');
-	    console.log(data);
+	.then(function onSuccess(data) {	    
+	    //.. do something with data 
 	}, function onError(error) {
-	    console.log('\nuser.validate() helper error output');
-	    console.log(error);
+	    //.. do something with error 
 	});
 ```
-	
+
+Method 2: `promise.onFulfill(onSuccess).onReject(onError)`
+```
+user.validate()
+	.then(function onSuccess(data) {	    
+	    //.. do something with data 
+	}, function onError(error) {
+	    //.. do something with error 
+	});
+```
+
 #### Helper `<modelObject>.remove()`
 > pending
 
