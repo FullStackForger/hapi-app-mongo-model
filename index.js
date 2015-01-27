@@ -1,46 +1,59 @@
-var MongoDB = require('mongodb'),
-	Joi = require('joi'),
+var Async = require('async'),
+	MongoDB = require('mongodb'),
+	Joi = require('Joi'),
 	Hoek = require('hoek'),
 	ModelFactory = require('./lib/model-factory'),
 	AppModel = {};
 
+// heavily borrowed from: 
+// https://github.com/Marsup/hapi-mongodb/blob/master/lib/index.js
+
 AppModel.register = function (server, options, next) {
+	var requireConnId = options instanceof Array && options.length > 1,
+		singleOption, optionsSchema, connect;
+	
+	singleOption = Joi.object({
+		url: Joi.string().required(),
+		connectionId: requireConnId ? Joi.string().required() : Joi.string(),
+		settings: Joi.object()
+	});
 
-	var connect = function (options, done) {
-		Mongodb.MongoClient.connect(options.url, options.settings, function (err, db) {
-			if (err) {
-				return done(err);
-			}
+	optionsSchema = Joi.array().includes(singleOption).min(1).single();
+	
+	connect = function (options, done) {
 
-			plugin.log([ 'hapi-mongodb', 'info' ], 'MongoClient connection created for ' + JSON.stringify(options));
-			done(null, db);
-		});
+		AppModel
+			.connect()
+			.then(function (db) {
+
+				AppModel.db = db;
+				AppModel.options = options;
+
+				server.log([ 'hapi-mongodb', 'info' ], 'MongoClient connection created for ' + JSON.stringify(options));
+				done(null, db);							
+
+			}, function (error) {
+				if (error) {
+					return done(error);
+				}				
+			});
 	};
 
-	async.map(options, connect, function (err, dbs) {
+	optionsSchema.validate(options, function (err, options) {
 		if (err) {
-			plugin.log([ 'hapi-mongodb', 'error' ], err);
 			return next(err);
 		}
 
-		plugin.expose('db', options.length === 1 ? dbs[0] : dbs);
-		next();
-	});
-	
-	AppModel
-		.connect(options.url, options.settings)
-		.then(function (db) {
-
-			AppModel.db = db;
-			AppModel.options = options;
+		Async.map(options, connect, function (err, dbs) {
+			if (err) {
+				server.log([ 'hapi-mongodb', 'error' ], err);
+				return next(err);
+			}
 
 			server.expose('app-model', AppModel);
 			next();
-
-		}, function (error) {
-			server.log('Error connecting to MongoDB via Model.');
-			return next(error);
 		});
+	})
 };
 
 AppModel.register.attributes = {

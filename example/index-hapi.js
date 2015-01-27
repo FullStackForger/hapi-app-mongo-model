@@ -3,6 +3,7 @@ var Hapi = require('hapi'),
 	Boom = require('boom'),
 	User = require('./models/user'),
 	Task = require('./models/task'),
+	Model = require('../'),
 	server = new Hapi.Server(),
 	plugins,
 	routes;
@@ -17,10 +18,13 @@ plugins = [{
 		}]
 	}
 },{
-	"url": "mongodb://localhost:27017/test",
-	"settings": {
-		"db": {
-			"native_parser": false
+	register: Model,
+	options: {
+		"url": "mongodb://localhost:27017/test",
+		"settings": {
+			"db": {
+				"native_parser": false
+			}
 		}
 	}
 }];
