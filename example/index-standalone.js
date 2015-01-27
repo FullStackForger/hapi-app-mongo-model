@@ -50,7 +50,7 @@ function logOutput() {
 }
 
 AppModel
-	.connect({})
+	.connect()
 	.then(function (db) {
 
 		populate();
