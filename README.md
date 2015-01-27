@@ -10,7 +10,7 @@ Most popular ODM for MongoDB manipulations from NodeJS is Mongoose.
 It is build on the top of MongoDB's native driver.
 It is build with tone of features such us object schemas and validation.
 
-Mongoose is however unnecesary if you want to reuse Hapi Joi schemas for validating your objects. 
+Mongoose is however unnecesary if you would want to reuse Hapi Joi schemas for validating your objects. 
 
 Hapi-app-mongo-model is attempt to provide lightweight abstraction on the top of MongoDB native driver.
 
@@ -121,12 +121,14 @@ console.log('> fullname() helper output: ' + user.fullName());
 
 ## User Reference
 
-
 ### Hapi plugin `Model.plugin`
 > pending
 
 ### Shared connection `Model.db`
 > pending
+
+### Schamas and indexes
+> pending, todo: look at ensureIndexes in hapi-mongo-models 
 
 ### Model namespaced methods
 #### Find method `Modes.find()`

@@ -7,6 +7,7 @@ user = new User({
 	comment: 'field not defined in schema'
 });
 
+
 console.log('\nstringified "user" object: ');
 console.log(user.toString());
 
@@ -22,8 +23,12 @@ user.validate()
 	});
 
 delete user.comment;
+
 user.validate()
 	.then(function onSuccess(data) {
 		console.log('\nuser.validate() helper success output');
 		console.log(data);
-	}, null);
+	}, function onError(error) {
+		console.log('\nuser.validate() helper error output');
+		console.log(error);
+	});

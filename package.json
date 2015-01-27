@@ -18,6 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mongodb": "^1.4.29"
+    "mongodb": "^1.4.29",
+    "mpromise": "^0.5.5"
   }
 }
