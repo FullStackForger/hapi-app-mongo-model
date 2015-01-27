@@ -1,40 +1,53 @@
-var ModelFactory = require('./lib/model-factory'),
-	Model = {};
+var MongoDB = require('mongodb'),
+	Joi = require('joi'),
+	Hoek = require('hoek'),
+	ModelFactory = require('./lib/model-factory'),
+	AppModel = {};
 
-// Public API method
-Model.generate = ModelFactory.generate;
+AppModel.register = function (server, options, next) {
 
-// Hapi public register method
-Model.register = function (server, options, next) {
+	var connect = function (options, done) {
+		Mongodb.MongoClient.connect(options.url, options.settings, function (err, db) {
+			if (err) {
+				return done(err);
+			}
 
-	var models = options.models || {};
-	var mongodb = options.mongodb;
-	var autoIndex = options.hasOwnProperty('autoIndex') ? options.autoIndex : true;
+			plugin.log([ 'hapi-mongodb', 'info' ], 'MongoClient connection created for ' + JSON.stringify(options));
+			done(null, db);
+		});
+	};
 
-	Object.keys(models).forEach(function (key) {
+	async.map(options, connect, function (err, dbs) {
+		if (err) {
+			plugin.log([ 'hapi-mongodb', 'error' ], err);
+			return next(err);
+		}
 
-		models[key] = require(Path.join(process.cwd(), models[key]));
+		plugin.expose('db', options.length === 1 ? dbs[0] : dbs);
+		next();
 	});
-
-	Model
-		.connect(mongodb)
+	
+	AppModel
+		.connect(options.url, options.settings)
 		.then(function (db) {
 
-			Model.db =db;
-			server.expose('Model', Model);
+			AppModel.db = db;
+			AppModel.options = options;
+
+			server.expose('app-model', AppModel);
 			next();
-			
+
 		}, function (error) {
 			server.log('Error connecting to MongoDB via Model.');
-			return next(err);
+			return next(error);
 		});
 };
 
-Model.register.attributes = {
-	name: 'myPlugin',
+AppModel.register.attributes = {
+	name: 'app-model',
 	version: '1.0.0'
 };
 
 
-module.exports = Model;
+module.exports = Hoek.merge(AppModel, ModelFactory);
 

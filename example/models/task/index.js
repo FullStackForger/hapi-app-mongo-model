@@ -1,4 +1,7 @@
 var Model = require('hapi-app-mongo-model'),
-	TaskModel = Model.generate("users", __dirname);
+	TaskModel = Model.generate({
+		collection: "users",
+		path: __dirname
+	});
 
 module.exports = TaskModel;

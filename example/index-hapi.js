@@ -7,6 +7,7 @@ var Hapi = require('hapi'),
 	plugins,
 	routes;
 
+// array of plugins to register
 plugins = [{
 	register: Good,
 	options: {
@@ -15,8 +16,16 @@ plugins = [{
 			args: [{ log: '*', response: '*' }]
 		}]
 	}
+},{
+	"url": "mongodb://localhost:27017/test",
+	"settings": {
+		"db": {
+			"native_parser": false
+		}
+	}
 }];
 
+// array of routes to load
 routes = [{
 	method: 'GET',
 	path: '/user',
@@ -51,6 +60,8 @@ routes = [{
 	}
 }];
 
+
+// register plugins
 server.register(plugins, function (error) {
 	if (error) {
 		console.error(err);		

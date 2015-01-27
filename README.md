@@ -122,10 +122,37 @@ console.log('> fullname() helper output: ' + user.fullName());
 ## User Reference
 
 ### Hapi plugin `Model.plugin`
+> done, there are no tests yet
+
+```
+var Hapi = require('hapi'),
+	server = new Hapi.Server();
+
+server.connection({ port: 3000 });
+server.register({
+	"url": "mongodb://localhost:27017/test",
+	"settings": {
+		"db": {
+			"native_parser": false
+		}
+	}
+}, function (error) {
+	//...
+	server.start();
+});
+```
+
+### Shared connections `Model.dbs`
 > pending
 
-### Shared connection `Model.db`
-> pending
+Array of db connection objets.
+```
+{ 
+	db: null, 
+	settings: null, 
+	error: null 
+}
+```
 
 ### Schamas and indexes
 > pending, todo: look at ensureIndexes in hapi-mongo-models 

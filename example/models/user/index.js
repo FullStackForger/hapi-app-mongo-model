@@ -1,4 +1,7 @@
 var Model = require('hapi-app-mongo-model'),
-	UserModel = Model.generate("users", __dirname);
+	UserModel = Model.generate({
+		collection: "users",
+		path: __dirname
+	});
 
 module.exports = UserModel;
