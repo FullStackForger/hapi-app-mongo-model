@@ -37,16 +37,13 @@ Hapi-app-mongo-model is attempt to provide lightweight abstraction on the top of
  	+ `validate()`
 
  - Ease of extensibility of the Helper and DAO methods ( see examples below )
- - All models share one db connection
+ - Easy connection management
+ 	+ Default settings for single connection
+ 	+ Models can share one connection
+ 	+ Models can use different connections to same or different databases
+ 	+ Easy connection indexing 	
 
-## Disclaimer
-
-Inspired by: 
- - [hapi-mongo-models](https://github.com/jedireza/hapi-mongo-models)
- - [hapi-mongodb](https://github.com/Marsup/hapi-mongodb)
-
-> **Note:** Mongoose is great ODM if want abstraction layer packed with tone of features and own validation. 
-> Kudos for creators for all the hard work. 
+ - Package can be used standalone or as a Hapi plugin
 
 ## Using Hapi App Mongo Model
 
@@ -71,7 +68,10 @@ models/user/schema.js
 
 ```js
 var Model = require('hapi-app-mongo-model'),
-	UserModel = Model.generate("users", __dirname);
+	UserModel = Model.generate({
+		collection: "users",
+		path: __dirname
+	});
 
 module.exports = UserModel;
 ```
@@ -101,6 +101,59 @@ userSchema = {
 }
 module.exports = userSchema;
 ```
+## Connecting to databse
+
+Below examples illustrate connecting to database if you run package outside of Hapi application. For using it as hapi plugin scroll to **Using Model as plugin with hapi**
+
+### Example 1: default connection `Model.connect()`
+
+In below example `Model.connect()` is called without any parameters.
+Model witll attempt to Connect to default mongo db url: 
+`mongodb://localhost:27017`.
+
+```
+var Model = require('hapi-app-mongo-model'),
+	connectionConfig = {};
+
+Model
+	.connect()
+	.then(function (db) {
+		// ... CRUD 		
+	}, function (error) {
+		throw new Error(error);		
+	});
+```
+
+### Example 2: custom connection `Model.connect(config)`
+
+Config object takes three parameters:
+ - **url** - mongodb url, fefault value will be used if it is undefined
+ - **connectionId** - identifier is required when there is more than one connection
+ - **settings** - setting object passed to native `connect` method 
+
+```
+var Model = require('hapi-app-mongo-model'),
+	connConfig;
+
+connConfig = {
+	url: 'mongodb://localhost:27017',	
+	connectionID: 'my-awesome-mongo-connection',
+	settings: {
+		 "db": {
+            "native_parser": false
+        }
+	}
+}
+
+Model
+	.connect(connConfig)
+	.then(function (db) {
+		// ... CRUD 		
+	}, function (error) {
+		throw new Error(error);		
+	});
+```
+
 
 ### Creating new user object
 
@@ -121,7 +174,7 @@ console.log('> fullname() helper output: ' + user.fullName());
 
 ## User Reference
 
-### Hapi plugin `Model.plugin`
+### Using Model as plugin with hapi `Model.plugin`
 > done, there are no tests yet
 
 ```
@@ -143,22 +196,69 @@ server.register({
 ```
 
 ### Shared connections `Model.dbs`
-> pending
+> done, there are no tests yet
 
-Array of db connection objets.
+Array of all open db connections.
+
+`Model.connect(settings)` takes one configuration at the time. However, it can be called multiple times with different configuration settings to open multiple and keep alive multple connections. 
+
+
+Array of db connection objets is made of:
 ```
 { 
-	db: null, 
-	settings: null, 
-	error: null 
+	db: null, 			// connection
+	settings: null, 	// settings used to start connection
+	error: null 		// error log if failed to connect
 }
 ```
 
-### Schamas and indexes
+### Schamas
+
+Models are required to have `schema.js` file which exports model object schema ready for validation with `Joi.validate()`.
+
+Simply follow [Joi docs][hapijs-joi-url] to create one.
+Check example code to see it in action.
+
+### Indexes
 > pending, todo: look at ensureIndexes in hapi-mongo-models 
 
-### Model namespaced methods
-#### Find method `Modes.find()`
+### Custom Model namespaced methods
+
+Methods exposed on the level of Custom Model are equivalent to collection methods, and so for example call to below method `update()`:
+```
+var Model = require('hapi-app-mongo-model');
+Model.dbs[{connection-id}].collection[{collection-name}].update( ... )
+```
+
+can be conviniently simplified to:
+```
+var UserModel = require('/path/to/user-model');
+UserModel.update( ... )
+```
+
+#### Creating Model Classes `Model.generate()`
+
+Method used to generate Custom Model Class takes config object with three parameters:
+ - **collection** - name of mongoDB collection 
+ - **connectionId** - optional if there is just one established connection,  identifier is required when there is more than one connection
+ - **path** - path to Custom Model directory directory with schema, dao and helpers files.
+ 
+Example Model Class generation:
+
+```
+var Model = require('hapi-app-mongo-model')
+	modelTaskConfig;
+
+modelTaskConfig = {
+    collection: "tasks",
+    connectionId: "my-connection",
+    path: __dirname
+}
+
+module.exports = Model.generate(modelTaskConfig);
+```
+
+#### Find method `Model.find()`
 > pending
 
 #### FindOne method `Model.findOne()`
@@ -221,19 +321,33 @@ user.validate()
 > pending
 
 ## Resources
-
-### Used packages
-
-> 
+ 
 > BIG **THANK YOU** TO ALL THE AUTHORS FOR DEVELOPING THOSE GREAT PACKAGES, FOR MAKING CODING EASIER, FASTER AND MORE FUN! 
 > 
-> **CHEEERS!!!**
-> 
-
-- [aheckmann/mpromise][git-mpromise-url]
+> **CHEEERIO!!!**
 
 
+#### Used HapiJs package
 
+ - [Hapi][hapijs-url] - A rich framework for building applications and services
+ - [Hoek][hapijs-hoek-url] - Utility methods for the hapi ecosystem
+ - [Good][hapijs-good-url] - Hapi process monitoring
+ - [Boom][[hapijs-boom-url] - HTTP-friendly error objects
+ - [Joi][hapijs-joi-url] - Object schema description language and validator for JavaScript objects.
 
+### Used packages
+ 
+
+- [aheckmann/mpromise][git-mpromise-url] - A promises/A+ conformant implementation
+- [hapi-mongo-models][hapi-mongo-models-url]
+- [hapi-mongodb][hapi-mongodb-url] 
+
+[hapijs]: https://github.com/hapijs/good
+[hapijs-url]: http://hapijs.com
+[hapijs-hoek-url]: https://github.com/hapijs/hoek
+[hapijs-joi-url]: https://github.com/hapijs/joi
+[hapijs-boom-url]: https://github.com/hapijs/boom
 
 [git-mpromise-url]: https://github.com/aheckmann/mpromise
+[hapi-mongo-models-url]: https://github.com/jedireza/hapi-mongo-models
+[hapi-mongodb-url]: https://github.com/Marsup/hapi-mongodb
