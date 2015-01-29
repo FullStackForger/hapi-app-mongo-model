@@ -49,6 +49,21 @@ routes = [{
 	}
 },{
 	method: 'GET',
+	path: '/user/remove-all',
+	handler: function userHandler(request, reply) {
+
+		User.remove({})
+			.onFulfill(function(data) {
+				reply({
+					removed: data
+				});
+			})
+			.onReject(function (error) {
+				reply(Boom.badImplementation(error));
+			});
+	}
+},{
+	method: 'GET',
 	path: '/user/save',
 	handler: function userHandler(request, reply) {
 
