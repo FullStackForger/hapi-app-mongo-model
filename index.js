@@ -5,12 +5,23 @@ var Async = require('async'),
 	ModelFactory = require('./lib/model-factory'),
 	AppModel = {};
 
-// heavily borrowed from: 
-// https://github.com/Marsup/hapi-mongodb/blob/master/lib/index.js
+const LOG_LABEL = 'hapi-app-mongo-models';
 
+
+/**
+ * Hapi Plugin registration method
+ *
+ * heavily borrowed from:
+ * - https://github.com/Marsup/hapi-mongodb/blob/master/lib/index.js
+ */
 AppModel.register = function (server, options, next) {
-	var requireConnId = options instanceof Array && options.length > 1,
+	var requireConnId = false,
 		singleOption, optionsSchema, connect;
+	
+
+	if (options instanceof Array && options.length > 1) {
+		requireConnId = true;
+	}
 	
 	singleOption = Joi.object({
 		url: Joi.string().required(),
@@ -23,31 +34,30 @@ AppModel.register = function (server, options, next) {
 	connect = function (options, done) {
 
 		AppModel
-			.connect()
+			.connect(options)
 			.then(function (db) {
 
-				AppModel.db = db;
-				AppModel.options = options;
-
-				server.log([ 'hapi-mongodb', 'info' ], 'MongoClient connection created for ' + JSON.stringify(options));
-				done(null, db);							
+				server.log([LOG_LABEL, 'info' ], 'MongoClient connection created for ' + JSON.stringify(options));
+				done(null, db);
 
 			}, function (error) {
 				if (error) {
+					server.log([LOG_LABEL, 'error' ], 'MongoClient connection failed for ' + JSON.stringify(options));
 					return done(error);
 				}				
 			});
 	};
 
-	optionsSchema.validate(options, function (err, options) {
-		if (err) {
-			return next(err);
+	optionsSchema.validate(options, function (error, options) {
+		if (error) {
+			server.log([LOG_LABEL, 'error' ], 'Plugin ' + LOG_LABEL + ' registration failed due to invalid configuration options');
+			return next(error);
 		}
 
-		Async.map(options, connect, function (err, dbs) {
-			if (err) {
-				server.log([ 'hapi-mongodb', 'error' ], err);
-				return next(err);
+		Async.map(options, connect, function (error, dbs) {
+			if (error) {
+				server.log([LOG_LABEL, 'error' ], error);
+				return next(error);
 			}
 
 			server.expose('app-model', AppModel);

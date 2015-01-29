@@ -14,13 +14,13 @@ plugins = [{
 	options: {
 		reporters: [{
 			reporter: require('good-console'),
-			args: [{ log: '*', response: '*' }]
+			args: [{ log: '*', response: '*', errpr: '*' }]
 		}]
 	}
 },{
 	register: Model,
 	options: {
-		"url": "mongodb://localhost:27017/test",
+		"url": "mongodb://localhost:27017/test_app",
 		"settings": {
 			"db": {
 				"native_parser": false
@@ -41,11 +41,28 @@ routes = [{
 		
 		user.validate()
 			.onFulfill(function(data) {
-				reply(data.toJSON());
+				reply(data);
 			})
 			.onReject(function (error) {
 				reply(Boom.badImplementation(error));
 			});						
+	}
+},{
+	method: 'GET',
+	path: '/user/save',
+	handler: function userHandler(request, reply) {
+
+		var user = {
+			fname : request.query.fname,
+			lname : request.query.lname
+		};
+
+		User.insert(user)
+			.then(reply)
+			.onReject(function(error) {
+				reply(Boom.badRequest('Invalid query: ' + error, error));
+				throw new Error(error);
+			});
 	}
 },{
 	method: 'GET',
@@ -68,7 +85,7 @@ routes = [{
 // register plugins
 server.register(plugins, function (error) {
 	if (error) {
-		console.error(err);		
+		throw new (error);
 	}
 	
 	server.connection({
