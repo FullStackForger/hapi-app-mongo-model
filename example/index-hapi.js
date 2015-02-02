@@ -41,7 +41,7 @@ routes = [{
 		
 		user.validate()
 			.onFulfill(function(data) {
-				reply(data);
+				reply(data.toJSON());
 			})
 			.onReject(function (error) {
 				reply(Boom.badImplementation(error));
