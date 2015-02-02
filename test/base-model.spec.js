@@ -25,6 +25,7 @@ describe('Base model', function () {
 	before(function (done) {
 		model = Hoek.merge(model, data);
 		
+		// config will be attached by the factory
 		BaseModel.prototype._config = {
 			schema : schema
 		};
@@ -38,7 +39,7 @@ describe('Base model', function () {
 		done();
 	});
 	
-	it('should convert to string', function (done) {
+	it('should convert to a string', function (done) {
 		expect(model.toString())
 			.to.be.a.string()
 			.and.only.include(JSON.stringify(data));
@@ -46,7 +47,7 @@ describe('Base model', function () {
 	});
 
 
-	it('should convert to JSON', function (done) {
+	it('should convert to a JSON', function (done) {
 		expect(model.toJSON())
 			.to.be.an.object()
 			.and.only.include(data);
