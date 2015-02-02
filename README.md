@@ -283,6 +283,11 @@ Convinience method for `new ModelClass(collectionName, [object])`
 #### FindOne `<ModelClass>.findOne()`
 > pending
 
+### Custom DAO helpers
+> pending
+> todo: <ModelClass> should conform to prototypal inheritance with parent class method exposed via \_super
+> that will allow to override them in models/model/dao.js
+
 ### Model Object helpers
 
 #### Save `<modelObject>.save()`
