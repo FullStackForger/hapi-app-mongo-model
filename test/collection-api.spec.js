@@ -72,6 +72,8 @@ describe('Collection API namespace object', function () {
 			apiSchema, collectionApi;
 
 		apiSchema = Joi.object().keys({
+			find: Joi.func().required(),
+			findOne: Joi.func().required(),
 			insert: Joi.func().required(),
 			update: Joi.func().required(),
 			remove: Joi.func().required(),
@@ -241,7 +243,7 @@ describe('Collection API', function () {
 	it('should update multiple documents', function (done) {
 		MockModel
 			.update(mockValidData, [mockValidData, mockValidData])
-			.then(function(data) {
+			.then(function(data) {				
 				expect(data[1]).to.only.contain(mockValidData);
 				done();
 			}, function (error) {
@@ -249,12 +251,26 @@ describe('Collection API', function () {
 			});
 	});
 
-	it('should return one found document', function (done) {
-		done(new Error("missing test"));
+	it('should return found document', function (done) {
+		MockModel
+			.findOne()
+			.then(function(data) {
+				expect(data).to.be.an.object();
+				done();
+			}, function (error) {
+				done(new Error(error));
+			});
 	});
 
 	it('should return multiple found documents', function (done) {
-		done(new Error("missing test"));
+		MockModel
+			.find()
+			.then(function(data) {
+				expect(data).to.be.an.array().and.have.length(2);
+				done();
+			}, function (error) {
+				done(new Error(error));
+			});
 	});
 	
 });
