@@ -34,18 +34,23 @@ routes = [{
 	method: 'GET',
 	path: '/user',
 	handler: function userHandler(request, reply) {
-		var user = new User({
-			fname: 'Tom',
-			lname: 'Boldie'
-		});
-		
-		user.validate()
-			.onFulfill(function(data) {
-				reply(data.toJSON());
-			})
-			.onReject(function (error) {
+		User.findOne(request.query)
+			.then(function(data) {
+				reply(data);
+			}, function (error) {
 				reply(Boom.badImplementation(error));
-			});						
+			});
+	}
+},{
+	method: 'GET',
+	path: '/users',
+	handler: function userHandler(request, reply) {
+		User.find(request.query)
+			.then(function(data) {
+				reply(data);
+			}, function (error) {
+				reply(Boom.badImplementation(error));
+			});
 	}
 },{
 	method: 'GET',
