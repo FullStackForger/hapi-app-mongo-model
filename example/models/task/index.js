@@ -1,4 +1,4 @@
-var Model = require('hapi-app-mongo-model'),
+var Model = require('../../../'),
 	TaskModel = Model.generate({
 		collection: "users",
 		path: __dirname
