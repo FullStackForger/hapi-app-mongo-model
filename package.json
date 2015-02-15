@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "code": "^1.2.1",
+    "good-console": "^4.1.0",
     "lab": "^5.2.0"
   }
 }

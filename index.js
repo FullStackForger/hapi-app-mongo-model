@@ -1,5 +1,4 @@
 var Async = require('async'),
-	MongoDB = require('mongodb'),
 	Joi = require('Joi'),
 	Hoek = require('hoek'),
 	ModelFactory = require('./lib/model-factory'),
@@ -11,8 +10,8 @@ const LOG_LABEL = 'hapi-app-mongo-models';
 /**
  * Hapi Plugin registration method
  *
- * heavily borrowed from:
- * - https://github.com/Marsup/hapi-mongodb/blob/master/lib/index.js
+ * multiple db connection management has been borrowed heavily from:
+ * https://github.com/Marsup/hapi-mongodb/blob/master/lib/index.js
  */
 AppModel.register = function (server, options, next) {
 	var requireConnId = false,
