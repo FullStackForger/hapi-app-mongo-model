@@ -8,28 +8,50 @@ var Hapi = require('hapi'),
 	describe = lab.describe,
 	it = lab.it,
 	before = lab.before,
-	after = lab.after,
-	ModelFactory = require('../lib/model-factory');
+	Model = require('../lib/app-model'),
+	NewsModel = require('./mocks/news-model');
 
 describe('model prototype methods', function() {
 
+	before(function (done) {
+
+		Model.connect({
+
+			url: 'mongodb://localhost:27017/test',
+			opts: {
+				"safe": true,
+				"db": {
+					"native_parser": false
+				}
+			}
+
+		}).then(function() {
+			Model.db.get('news').remove({}, function() {
+				done();
+			});
+		});
+
+		//users = db.get('users-' + Date.now());
+		//indexes = db.get('indexes-' + Date.now());
+	});
+	
 	it('should create', function (done) {
-		done('missing');
+		done(new Error('missing'));
 	});
 	
 	it('should save', function (done) {
-		done('missing');
+		done(new Error('missing'));
 	});
 
 	it('should validate', function (done) {
-		done('missing');
+		done(new Error('missing'));
 	});
 
 	it('should turn to JSON', function (done) {
-		done('missing');
+		done(new Error('missing'));
 	});
 
 	it('should turn to string', function (done) {
-		done('missing');
+		done(new Error('missing'));
 	});
 });

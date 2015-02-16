@@ -14,31 +14,31 @@ var Hapi = require('hapi'),
 describe('model prototype methods', function() {
 	
 	it('should insert and parse', function (done) {
-		done('missing');
+		done(new Error('missing'));
 	});
 
 	it('should find and parse', function (done) {
-		done('missing');
+		done(new Error('missing'));
 	});
 
 	it('should find one and parse', function (done) {
-		done('missing');
+		done(new Error('missing'));
 	});
 
 	it('should find one and parse', function (done) {
-		done('missing');
+		done(new Error('missing'));
 	});
 
 	it('should force find (and parse)', function (done) {
-		done('missing');
+		done(new Error('missing'));
 	});
 
 	it('should find one and parse', function (done) {
-		done('missing');
+		done(new Error('missing'));
 	});
 	
 	it('should validate', function (done) {
-		done('missing');		
+		done(new Error('missing'));		
 	});
 	
 });

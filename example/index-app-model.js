@@ -1,5 +1,11 @@
 var AppModel = require('../lib/app-model');
 
+
+var News = AppModel.register({
+	collection: 'news',
+	path: __dirname + "/models/news"
+});
+
 AppModel.connect({
 	
 	url: 'mongodb://localhost:27017/test',
