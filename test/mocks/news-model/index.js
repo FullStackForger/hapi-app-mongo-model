@@ -1,6 +1,6 @@
 var Model = require('../../../lib/app-model'),
 	NewsModel = Model.register({
-		collection: "users",
+		collection: "news",
 		path: __dirname
 	});
 

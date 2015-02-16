@@ -8,37 +8,109 @@ var Hapi = require('hapi'),
 	describe = lab.describe,
 	it = lab.it,
 	before = lab.before,
-	after = lab.after,
-	ModelFactory = require('../lib/model-factory');
+	beforeEach = lab.beforeEach,
+	Model = require('../lib/app-model');
+	
 
 describe('model prototype methods', function() {
+	var NewsModel;
+	
+	before(function (done) {
+		Model.connect({ url: 'mongodb://localhost:27017/test', opts: { 'safe': true } })
+			.then(function() {
+				NewsModel = require('./mocks/news-model');
+				done();
+			});
+	});
+
+	beforeEach(function (done) {
+		Model.db.get('news').remove({}, function() {
+			done();
+		});
+	});
+	
+	it('should successfully validate', function (done) {
+		var newsData = { title: "new title", copy: "lorem ipsum mixum twiksum" };
+		NewsModel
+			.validate(newsData)
+			.then(function (validated) {
+				expect(validated[0]).to.include(newsData);
+				done();
+			});
+	});
+
+	it('should fail validation', function (done) {
+		var newsData = { title: "new title", not_valid_property: ""};
+		NewsModel
+			.validate(newsData)
+			.then(function () {
+				done(new Error('bad data document has been validated ok'));
+			}).onReject(function (error) {
+				expect(error).to.not.be.null;
+				done();
+			});
+	});	
 	
 	it('should insert and parse', function (done) {
-		done(new Error('missing'));
+		var newsData = { title: "new title", copy: "lorem ipsum mixum twiksum" };
+		NewsModel
+			.insertAndParse(newsData)
+			.then(function (news) {
+				expect(news).to.include(newsData);
+				done();
+			});
+	});
+
+	it('should NOT insert invalid data', function (done) {
+		var newsData = { illigal_property: "" };
+		NewsModel
+			.insertAndParse(newsData)
+			.then(function () {
+				done(new Error('bad data document inserted'));
+			}).onReject(function (error) {
+				expect(error).to.not.be.null;
+				done();
+			})
 	});
 
 	it('should find and parse', function (done) {
-		done(new Error('missing'));
+		var newsData = { title: "new title", copy: "lorem ipsum mixum twiksum" },
+			query = { title: "new title" },
+			insertData = [ Hoek.merge({}, newsData), Hoek.merge({}, newsData), Hoek.merge({}, newsData) ];
+
+		NewsModel.insert(insertData, function(error, result) {
+			if (error) done(new Error(error));
+
+			NewsModel.findAndParse(query)
+				.then(function (news) {
+					expect(news).to.be.an.array().length(3);
+					expect(news[0]).to.include(newsData);
+					expect(news[1]).to.include(newsData);
+					done();
+				}).onReject(function (error){
+					done(error);
+				});
+		});
+		
 	});
 
 	it('should find one and parse', function (done) {
-		done(new Error('missing'));
-	});
+		var newsData = { title: "new title", copy: "lorem ipsum mixum twiksum" },
+			query = { title: "new title" },
+			insertData = [ Hoek.merge({}, newsData), Hoek.merge({}, newsData) ];
 
-	it('should find one and parse', function (done) {
-		done(new Error('missing'));
-	});
+		NewsModel.insert(insertData, function(error, result) {
+			if (error) done(error);
 
-	it('should force find (and parse)', function (done) {
-		done(new Error('missing'));
-	});
-
-	it('should find one and parse', function (done) {
-		done(new Error('missing'));
-	});
-	
-	it('should validate', function (done) {
-		done(new Error('missing'));		
-	});
+			NewsModel.findOneAndParse(query)
+				.then(function (news) {
+					expect(news).to.include(newsData);
+					done();
+				}).onReject(function (error) {
+					throw error;
+				});
+		});
+		
+	});	
 	
 });

@@ -1,10 +1,5 @@
-var AppModel = require('../lib/app-model');
-
-
-var News = AppModel.register({
-	collection: 'news',
-	path: __dirname + "/models/news"
-});
+var AppModel = require('../lib/app-model'),
+	Hoek = require('hoek');
 
 AppModel.connect({
 	
@@ -27,13 +22,13 @@ AppModel.connect({
 	News.drop();
 	 */
 	
-	/* todo: move to tests
+	/* todo: move to tests */
 	News.insert({
 		name: "super monko oki donko"
 	}).then(function(result) {
 		console.log(result);
 	});
-	*/
+
 	
 	/* todo: move to tests
 	News.updateById('54e19a307b945e0000b9ca6f', {
@@ -114,18 +109,42 @@ AppModel.connect({
 	 */
 	
 	/* todo: move to tests
-	News.findAndParse({title: 'good lorem news'})
-		.then(function(news) {
-			for (var i = 0; i < news.length; i++) {
-				console.log(news[i].toJSON());					
-			}					
-		});
+	var newsData = { title: 'good lorem news' },
+		insertData = [
+			Hoek.merge({}, newsData),
+			Hoek.merge({}, newsData),
+			Hoek.merge({}, newsData)
+		];
 	
-	News.findOneAndParse({title: 'good lorem news'})
-		.then(function(news) {
-			console.log(news.toJSON());
-		});
+	News.insert(insertData, function(error, result) {
+		if (error) throw new Error(error);
+
+		News.findAndParse(newsData)
+			.then(function(news) {
+				for (var i = 0; i < news.length; i++) {
+					console.log(news[i].toJSON());
+				}
+			});
+	});
 	*/
+
+	/* todo: move to tests */
+	var newsData = { title: 'good lorem news' },
+		insertData = [
+			Hoek.merge({}, newsData),
+			Hoek.merge({}, newsData)
+		];
+	
+	News.insert(insertData, function(error, result) {
+		if (error) throw new Error(error);
+		
+		News.findOneAndParse(newsData)
+			.then(function(news) {
+				console.log(news.toJSON());
+			});
+	});
+	
+
 
 	/* todo: move to tests
 	var news = {
