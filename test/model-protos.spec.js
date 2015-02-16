@@ -19,9 +19,9 @@ describe('model prototype methods', function() {
 
 			url: 'mongodb://localhost:27017/test',
 			opts: {
-				"safe": true,
-				"db": {
-					"native_parser": false
+				'safe': true,
+				'db': {
+					'native_parser': false
 				}
 			}
 
@@ -36,22 +36,51 @@ describe('model prototype methods', function() {
 	});
 	
 	it('should create', function (done) {
-		done(new Error('missing'));
+		var newsData = { title: 'new title', copy: 'lorem ipsum' },
+			news = new NewsModel(newsData);
+		
+		expect(news.title).to.be.equal(newsData.title);
+		expect(news.copy).to.be.equal(newsData.copy);
+		done();
 	});
 	
 	it('should save', function (done) {
-		done(new Error('missing'));
+		var news = new NewsModel({ title: 'new title', copy: 'lorem ipsum' });
+		expect(news).to.be.equal(news);
+		news.title = 'title changed';
+		news.save()
+			.then(function(news) {
+				expect(news.title).to.be.equal('title changed');
+			});
+		done();
 	});
 
 	it('should validate', function (done) {
-		done(new Error('missing'));
+		var news = new NewsModel({ title: 'new title', copy: 'lorem ipsum' }),
+			validated = news.validate();
+
+		expect(validated.error).to.be.null;
+		
+		news.invalidField = "some invalid data";
+		validated = news.validate();
+		expect(validated.error).to.exist;
+		
+		done();
 	});
 
 	it('should turn to JSON', function (done) {
-		done(new Error('missing'));
+		var newsData = { title: 'new title', copy: 'lorem ipsum' },
+			news = new NewsModel(newsData);
+		
+		expect(news.toJSON()).to.only.include(newsData);
+		done();
 	});
 
 	it('should turn to string', function (done) {
-		done(new Error('missing'));
+		var newsData = { title: 'new title', copy: 'lorem ipsum' },
+			news = new NewsModel(newsData);
+
+		expect(news.toString()).to.be.equal(JSON.stringify(newsData));
+		done();
 	});
 });
