@@ -12,24 +12,33 @@ var Hapi = require('hapi'),
 	ModelFactory = require('../lib/model-factory');
 
 describe('model prototype methods', function() {
+	
+	it('should insert and parse', function (done) {
+		done('missing');
+	});
 
-	it('should create', function (done) {
+	it('should find and parse', function (done) {
+		done('missing');
+	});
+
+	it('should find one and parse', function (done) {
+		done('missing');
+	});
+
+	it('should find one and parse', function (done) {
+		done('missing');
+	});
+
+	it('should force find (and parse)', function (done) {
+		done('missing');
+	});
+
+	it('should find one and parse', function (done) {
 		done('missing');
 	});
 	
-	it('should save', function (done) {
-		done('missing');
-	});
-
 	it('should validate', function (done) {
-		done('missing');
+		done('missing');		
 	});
-
-	it('should turn to JSON', function (done) {
-		done('missing');
-	});
-
-	it('should turn to string', function (done) {
-		done('missing');
-	});
+	
 });
