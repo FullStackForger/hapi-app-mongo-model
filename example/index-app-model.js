@@ -107,6 +107,22 @@ AppModel.connect({
 			console.log(news.toJSON());
 		});
 	*/
+
+	/* todo: move to tests
+	var news = {
+		title: 'good lorem news',
+		copy: 'lorem to ipsum lorem to ipsum lorem to ipsum'
+	};
+	
+	News.insertAndParse(news)
+		.then(function(news) {
+			console.log(news);
+			news.title = 'new title';
+			return news.save();
+		}).then(function(news) {
+			console.log(news);
+		});
+	*/
 	
 }).catch(function(error) {
     throw error;
