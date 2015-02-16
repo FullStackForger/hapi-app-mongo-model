@@ -18,6 +18,10 @@ AppModel.connect({
 	});
 
 	/* todo: move to tests
+	News.drop();
+	 */
+	
+	/* todo: move to tests
 	News.insert({
 		name: "super monko oki donko"
 	}).then(function(result) {
@@ -51,6 +55,23 @@ AppModel.connect({
 		console.log(result);
 	})
 	*/
+	
+	/* todo: move to tests
+	var news = new News({
+		title: 'good news',
+		//paperId: 'MY-PAPER',
+		copy: 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum'
+	});
+	console.log(news.toString());
+	console.log(news.toJSON());
+	news.validate()
+		.then(function(data) {
+			console.log(JSON.stringify(data));
+		}).catch(function(error) {
+			throw error;
+		});
+	 */
+	
 	
 }).catch(function(error) {
     throw error;
