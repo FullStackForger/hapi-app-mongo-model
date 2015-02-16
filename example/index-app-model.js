@@ -33,6 +33,25 @@ AppModel.connect({
 	})
 	*/
 
+	/* todo: move to tests
+	var news = {
+		title: 'good news',
+		paperId: 'MY-PAPER',
+		copy: 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum '
+	};
+	News.findAndModify({
+		query: { paperId: news.paperId },
+		update: {
+			$setOnInsert: news
+		}
+	}, {
+		new: true,   // return new doc if one is upserted
+		upsert: true // insert the document if it does not exist
+	}).then(function(result) {
+		console.log(result);
+	})
+	*/
+	
 }).catch(function(error) {
     throw error;
 });
