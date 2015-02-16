@@ -126,7 +126,7 @@ AppModel.connect({
 		title: 'good lorem news',
 		copy: 'lorem to ipsum lorem to ipsum lorem to ipsum'
 	};
-	
+
 	News.insertAndParse(news)
 		.then(function(news) {
 			console.log(news);
@@ -136,6 +136,21 @@ AppModel.connect({
 			console.log(news);
 		});
 	*/
+
+	/* todo: move to tests
+	// saves docs without id
+	var news = new News({
+			_id: News.id('54e24ad628bebe94601b6e42'),
+			title: 'good lorem news',
+			copy: 'lorem to ipsum lorem to ipsum lorem to ipsum'
+		});
+	
+	news.save()
+		.then(function(news) {
+			console.log(news.toJSON());
+		});
+	*/
+
 	
 }).catch(function(error) {
     throw error;
