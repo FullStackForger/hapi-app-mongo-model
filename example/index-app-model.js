@@ -55,6 +55,19 @@ AppModel.connect({
 		console.log(result);
 	})
 	*/
+
+	/* todo: move to tests
+	// equivalent to previous one
+	var news = {
+		title: 'good news',
+		copy: 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum '
+	};
+	News.forceFind(news).then(function(result) {
+		console.log(result.toJSON());
+	}).onReject(function(error){
+		throw error;
+	});
+	*/
 	
 	/* todo: move to tests
 	var news = new News({
