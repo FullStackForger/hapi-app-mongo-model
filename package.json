@@ -9,6 +9,10 @@
   "scripts": {
     "test": "make test-cov"
   },
+  "repository": {
+	"type": "git",
+	"url": "git@github.com:innocentio/hapi-app-mongo-model.git"
+  },
   "keywords": [
     "hapi",
     "hapi-app",
