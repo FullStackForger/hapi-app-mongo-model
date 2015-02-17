@@ -17,9 +17,19 @@ var Path = require('path'),
 
 describe('Model Factory Connections', function () {
 
-	it('should create database connection', function (done) {
+	it('should establish database connection', function (done) {
 		Model
 			.connect({ url: 'mongodb://localhost:27017/test', opts: { 'safe': true } })
+			.then(function() {
+				done();
+			}, function (error) {
+				done(error);
+			});
+	});
+
+	it('should establish default database connection', function (done) {
+		Model
+			.connect()
 			.then(function() {
 				done();
 			}, function (error) {
@@ -54,6 +64,11 @@ describe('Model Factory Connections', function () {
 
 describe('Model Factory Generator', function () {
 
+	var newsConfig = {
+		collection: 'news',
+		path: Path.resolve(__dirname, "../test-mocks/news-model")
+	};
+	
 	before(function (done) {
 		Model.connect({ url: 'mongodb://localhost:27017/test', opts: { 'safe': true } })
 			.then(function () {
@@ -104,46 +119,42 @@ describe('Model Factory Generator', function () {
 			done();
 		}
 	});
-});
-
-describe('Model Factory Generator', function () {
-
-	var newsConfig = {
-		collection: 'news',
-		path: Path.resolve(__dirname, "../test-mocks/news-model")
-	};
 	
-	before(function (done) {
-		Model.connect({ url: 'mongodb://localhost:27017/test', opts: { 'safe': true } })
-			.then(function () {
-				NewsModel = require('../test-mocks/news-model');
-				done();
-			});
-
+	it('should register Custom Model with valid config', function (done) {
 		NewsModel = Model.register(newsConfig);
+		expect(NewsModel).to.not.be.null();
+		done();
 	});
 
-	it('should generate Custom Model with valid config', function (done) {
+	it('should register Model with schema only (without dao or helpers)', function (done) {
+		NewsModel = Model.register({
+			collection: 'news',
+			path: Path.resolve(__dirname, "../test-mocks/news-model-only-schema")
+		});
 		expect(NewsModel).to.not.be.null();
 		done();
 	});
 
 	it('should store configuration', function (done) {
+		NewsModel = Model.register(newsConfig);
 		expect(NewsModel.config).to.include(newsConfig);
 		done();
 	});
 	
 	it('should expose local DAO methods', function (done) {
+		NewsModel = Model.register(newsConfig);
 		expect(NewsModel.customQuery).to.be.a.function;
 		done();
 	});
 
 	it('should merge local helpers into the prototype', function (done) {
+		NewsModel = Model.register(newsConfig);
 		expect(NewsModel.prototype.header).to.be.a.function;
 		done();
 	});
 
 	it('should expose db connection', function (done) {
+		NewsModel = Model.register(newsConfig);
 		expect(Model.db).to.not.be.null;
 		expect(Model.db).to.be.object;
 		expect(NewsModel.db).to.be.object;
