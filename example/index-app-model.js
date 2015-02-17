@@ -1,9 +1,6 @@
 var AppModel = require('../lib/app-model'),
 	Hoek = require('hoek');
 
-
-AppModel.register();
-
 AppModel.connect({
 	
 	url: 'mongodb://localhost:27017/test',
