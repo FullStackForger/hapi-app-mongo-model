@@ -1,5 +1,5 @@
 var Model = require('../../../'),
-	UserModel = Model.generate({
+	UserModel = Model.register({
 		collection: "users",
 		path: __dirname
 	});

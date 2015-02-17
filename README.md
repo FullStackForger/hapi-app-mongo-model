@@ -10,40 +10,28 @@ Most popular ODM for MongoDB manipulations from NodeJS is Mongoose.
 It is build on the top of MongoDB's native driver.
 It is build with tone of features such us object schemas and validation.
 
-Mongoose is however unnecesary if you would want to reuse Hapi Joi schemas for validating your objects. 
+Mongoose is however unnecesary if you would want to reuse Hapi Joi schemas for validation of your model objects. 
 
-Hapi-app-mongo-model is attempt to provide lightweight abstraction on the top of MongoDB native driver.
+Hapi-app-mongo-model is provides lightweight abstraction on the top of MongoDB native driver.
 
 ## Core features 
 
- - `Model` is a namespace object exposing MongoDB collection methods returning promise:
- 	+ `find()`, 
- 	+ `findOne()`, 
- 	+ `ObjectId`,
- 	
- - `Model` is also a constructor used to create custom `ModelClass`-es
- - `ModelClass` can be created with:
-	+ `new Model(collectionName, [object])` or
-	+ `Model.generate(collectionName, [object])`
-
- - DAO helpers are exposed in custom `ModelClass`:
- 	+  `find()`, 
-	+ `findOne()`
-
+ - It can be used stand-alone or registered as Hapi plugin with `AppModel.plugin` extension
+ - It allows to register custom `ModelClass`-es
+ - It exposes mongo collection method on custom `ModelClasses`, such us: 
+ `find()`, `findOne()`, `insert()`, etc.
+ - It exposes sugar methods (returning promises) on `Model Classes`
+ 	+ `validate()`, 
+ 	+ `findAndParse()`, 
+	+ `findOneAndParse()`
+	+ `insertAndParse()`
+	+ `forceFind()`
  - Helper methods available on `modelObject`:
- 	+ `save()`, 
- 	+ `update()`, 
- 	+ `remove()`, 
+ 	+ `save()`,  
  	+ `validate()`
-
+ 	+ `toJSON()`
+ 	+ `toString()`
  - Ease of extensibility of the Helper and DAO methods ( see examples below )
- - Easy connection management
- 	+ Default settings for single connection
- 	+ Models can share one connection
- 	+ Models can use different connections to same or different databases
- 	+ Easy connection indexing 	
-
- - Package can be used standalone or as a Hapi plugin
 
 ## Using Hapi App Mongo Model
 

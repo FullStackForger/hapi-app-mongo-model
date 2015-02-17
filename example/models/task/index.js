@@ -1,5 +1,5 @@
 var Model = require('../../../'),
-	TaskModel = Model.generate({
+	TaskModel = Model.register({
 		collection: "users",
 		path: __dirname
 	});

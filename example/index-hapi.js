@@ -1,13 +1,15 @@
 var Hapi = require('hapi'),
 	Good = require('good'),
-	Boom = require('boom'),
-	User = require('./models/user'),
-	Task = require('./models/task'),
+	Boom = require('boom'),	
 	Model = require('../'),
 	server = new Hapi.Server(),
 	plugins,
 	routes;
-
+	
+// Models can be created once db connection is established (load plugins first)
+var UserModel,
+	TaskModel;
+	
 // array of plugins to register
 plugins = [{
 	register: Good,
@@ -18,10 +20,10 @@ plugins = [{
 		}]
 	}
 },{
-	register: Model,
+	register: Model.plugin,
 	options: {
 		"url": "mongodb://localhost:27017/test_app",
-		"settings": {
+		"opts": {
 			"db": {
 				"native_parser": false
 			}
@@ -34,7 +36,7 @@ routes = [{
 	method: 'GET',
 	path: '/user',
 	handler: function userHandler(request, reply) {
-		User.findOne(request.query)
+		UserModel.findOne(request.query)
 			.then(function(data) {
 				reply(data);
 			}, function (error) {
@@ -45,7 +47,7 @@ routes = [{
 	method: 'GET',
 	path: '/users',
 	handler: function userHandler(request, reply) {
-		User.find(request.query)
+		UserModel.find(request.query)
 			.then(function(data) {
 				reply(data);
 			}, function (error) {
@@ -57,7 +59,7 @@ routes = [{
 	path: '/user/remove-all',
 	handler: function userHandler(request, reply) {
 
-		User.remove({})
+		UserModel.remove({})
 			.onFulfill(function(data) {
 				reply({
 					removed: data
@@ -77,7 +79,7 @@ routes = [{
 			lname : request.query.lname
 		};
 
-		User.insert(user)
+		UserModel.insert(user)
 			.then(reply)
 			.onReject(function(error) {
 				reply(Boom.badRequest('Invalid query: ' + error, error));
@@ -88,7 +90,7 @@ routes = [{
 	method: 'GET',
 	path: '/task',
 	handler: function taskHandler(request, reply) {
-		var task = new Task({
+		var task = new TaskModel({
 			name: 'another thing to do'
 		});
 
@@ -107,6 +109,9 @@ server.register(plugins, function (error) {
 	if (error) {
 		throw new (error);
 	}
+
+	UserModel = require('./models/user');
+	TaskModel = require('./models/task');
 	
 	server.connection({
 		host: 'localhost',

@@ -9,7 +9,7 @@ var Hapi = require('hapi'),
 	it = lab.it,
 	before = lab.before,
 	after = lab.after,
-	ModelFactory = require('../lib/model-factory');
+	Model = require('../lib/app-model');
 
 
 describe('Model Factory Connections', function () {
@@ -18,15 +18,7 @@ describe('Model Factory Connections', function () {
 		done(new Error("missing test"));
 	});
 	
-	it('should create multiple database connections', function (done) {
-		done(new Error("missing test"));
-	});
-	
 	it('should close a connection a database connection', function (done) {
-		done(new Error("missing test"));
-	});
-	
-	it('should close all database connection', function  (done) {
 		done(new Error("missing test"));
 	});
 	
@@ -47,10 +39,6 @@ describe('Model Factory Generator', function () {
 	});
 
 	it('should store configuration', function (done) {
-		done(new Error("missing test"));
-	});
-	
-	it('should allow to create Custom model via generate()', function (done) {
 		done(new Error("missing test"));
 	});
 	

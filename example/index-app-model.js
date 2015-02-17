@@ -18,19 +18,20 @@ AppModel.connect({
 		path: __dirname + "/models/news"
 	});
 
-	/* todo: move to tests
+	/*
 	News.drop();
 	 */
 	
-	/* todo: move to tests */
+	/*
 	News.insert({
 		name: "super monko oki donko"
 	}).then(function(result) {
 		console.log(result);
 	});
+	*/
 
 	
-	/* todo: move to tests
+	/*
 	News.updateById('54e19a307b945e0000b9ca6f', {
 		$set: { betterVersion: true }
 	}).then(function(result) {
@@ -38,7 +39,7 @@ AppModel.connect({
 	})
 	*/
 
-	/* todo: move to tests
+	/* 
 	var news = {
 		title: 'good news',
 		paperId: 'MY-PAPER',
@@ -57,7 +58,7 @@ AppModel.connect({
 	})
 	*/
 
-	/* todo: move to tests
+	/* 
 	// equivalent to previous one
 	var news = {
 		title: 'good news',
@@ -70,7 +71,7 @@ AppModel.connect({
 	});
 	*/
 	
-	/* todo: move to tests
+	/* 
 	var news = new News({
 		title: 'good news',
 		//paperId: 'MY-PAPER',
@@ -86,7 +87,7 @@ AppModel.connect({
 		});
 	 */
 	
-	/* todo: move to tests 
+	/*  
 	var news = [{
 		    title: 'good lorem news',
 		    copy: 'lorem to ipsum lorem to ipsum lorem to ipsum'
@@ -108,7 +109,7 @@ AppModel.connect({
 		});
 	 */
 	
-	/* todo: move to tests
+	/* 
 	var newsData = { title: 'good lorem news' },
 		insertData = [
 			Hoek.merge({}, newsData),
@@ -128,7 +129,7 @@ AppModel.connect({
 	});
 	*/
 
-	/* todo: move to tests */
+	/* 
 	var newsData = { title: 'good lorem news' },
 		insertData = [
 			Hoek.merge({}, newsData),
@@ -143,10 +144,10 @@ AppModel.connect({
 				console.log(news.toJSON());
 			});
 	});
-	
+	*/
 
 
-	/* todo: move to tests
+	/* 
 	var news = {
 		title: 'good lorem news',
 		copy: 'lorem to ipsum lorem to ipsum lorem to ipsum'
@@ -162,7 +163,7 @@ AppModel.connect({
 		});
 	*/
 
-	/* todo: move to tests
+	/* 
 	// saves docs without id
 	var news = new News({
 			_id: News.id('54e24ad628bebe94601b6e42'),
