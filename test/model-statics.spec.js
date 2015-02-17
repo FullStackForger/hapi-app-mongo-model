@@ -60,6 +60,8 @@ describe('model static methods', function() {
 			.then(function (news) {
 				expect(news).to.include(newsData);
 				done();
+			}).onReject(function (error) {
+				done(error);
 			});
 	});
 
