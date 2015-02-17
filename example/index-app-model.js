@@ -2,7 +2,7 @@ var AppModel = require('../lib/app-model'),
 	Hoek = require('hoek');
 
 
-
+AppModel.register();
 
 AppModel.connect({
 	
