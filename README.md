@@ -56,11 +56,10 @@ models/user/schema.js
 
 ```js
 var Model = require('hapi-app-mongo-model'),
-	UserModel = Model.generate({
+	UserModel = Model.register({
 		collection: "users",
 		path: __dirname
 	});
-
 module.exports = UserModel;
 ```
 
@@ -82,7 +81,6 @@ module.exports = {
 ```js
 var Joi = require('joi'),
 	userSchema;
-
 userSchema = {
 	fname: Joi.string(),
 	lname: JOi.string()
@@ -96,7 +94,7 @@ Below examples illustrate connecting to database if you run package outside of H
 ### Example 1: default connection `Model.connect()`
 
 In below example `Model.connect()` is called without any parameters.
-Model witll attempt to Connect to default mongo db url: 
+Model will attempt to Connect to default mongo db url: 
 `mongodb://localhost:27017`.
 
 ```
@@ -117,7 +115,7 @@ Model
 Config object takes three parameters:
  - **url** - mongodb url, fefault value will be used if it is undefined
  - **connectionId** - identifier is required when there is more than one connection
- - **settings** - setting object passed to native `connect` method 
+ - **opts** - setting object passed to native `connect` method 
 
 ```
 var Model = require('hapi-app-mongo-model'),
@@ -126,7 +124,7 @@ var Model = require('hapi-app-mongo-model'),
 connConfig = {
 	url: 'mongodb://localhost:27017',	
 	connectionID: 'my-awesome-mongo-connection',
-	settings: {
+	opts: {
 		 "db": {
             "native_parser": false
         }
@@ -155,9 +153,11 @@ user = new User({
 	fname: 'Smith'
 });
 
-console.log('> stringified "user" object')
+// call build-in helper
 console.log(user.toJSON());
-console.log('> fullname() helper output: ' + user.fullName());
+
+// call local helper
+console.log(user.fullName());
 ```
 
 ## User Reference
@@ -172,7 +172,7 @@ var Hapi = require('hapi'),
 server.connection({ port: 3000 });
 server.register({
 	"url": "mongodb://localhost:27017/test",
-	"settings": {
+	"opts": {
 		"db": {
 			"native_parser": false
 		}
@@ -183,22 +183,13 @@ server.register({
 });
 ```
 
-### Shared connections `Model.dbs`
-> done, there are no tests yet
+### Shared connection `Model.db`
 
-Array of all open db connections.
+`Model.connect(settings)` creates connection that can be accessed via:
+ - `Model.db`
+ - `YourModel.db`
+ - `yourObject.db`
 
-`Model.connect(settings)` takes one configuration at the time. However, it can be called multiple times with different configuration settings to open multiple and keep alive multple connections. 
-
-
-Array of db connection objets is made of:
-```
-{ 
-	db: null, 			// connection
-	settings: null, 	// settings used to start connection
-	error: null 		// error log if failed to connect
-}
-```
 
 ### Schamas
 
@@ -208,14 +199,15 @@ Simply follow [Joi docs][hapijs-joi-url] to create one.
 Check example code to see it in action.
 
 ### Indexes
-> pending, todo: look at ensureIndexes in hapi-mongo-models 
+
+Uses monk indexing exposed on collection.
 
 ### Custom Model namespaced methods
 
 Methods exposed on the level of Custom Model are equivalent to collection methods, and so for example call to below method `update()`:
 ```
 var Model = require('hapi-app-mongo-model');
-Model.dbs[{connection-id}].collection[{collection-name}].update( ... )
+Model.db.collection[{collection-name}].update( ... )
 ```
 
 can be conviniently simplified to:
@@ -224,11 +216,10 @@ var UserModel = require('/path/to/user-model');
 UserModel.update( ... )
 ```
 
-#### Creating Model Classes `Model.generate()`
+#### Creating Model Classes `Model.register()`
 
 Method used to generate Custom Model Class takes config object with three parameters:
  - **collection** - name of mongoDB collection 
- - **connectionId** - optional if there is just one established connection,  identifier is required when there is more than one connection
  - **path** - path to Custom Model directory directory with schema, dao and helpers files.
  
 Example Model Class generation:
@@ -239,7 +230,6 @@ var Model = require('hapi-app-mongo-model')
 
 modelTaskConfig = {
     collection: "tasks",
-    connectionId: "my-connection",
     path: __dirname
 }
 
@@ -247,13 +237,16 @@ module.exports = Model.generate(modelTaskConfig);
 ```
 
 #### Find method `Model.find()`
-> pending
+
+Convenience method
 
 #### FindOne method `Model.findOne()`
-> pending
+
+Convenience method
 
 #### ObjectId via `Model.ObjectId()` and `Model.ObjectID()`
-> pending
+
+Convenience method
 
 ### DAO helpers
 
@@ -261,31 +254,32 @@ module.exports = Model.generate(modelTaskConfig);
 
 
 #### Createing object via `ModelClass.create(collectionName, [object])` 
-Convinience method for `new ModelClass(collectionName, [object])`
+Convenience method for `new ModelClass(collectionName, [object])`
 
 > status: implemented but no tests
 
 #### Find `<ModelClass>.find()`
-> pending
+
+Convenience method
 
 #### FindOne `<ModelClass>.findOne()`
-> pending
+
+Convenience method
 
 ### Custom DAO helpers
-> pending
-> todo: <ModelClass> should conform to prototypal inheritance with parent class method exposed via \_super
+
+> todo: missing test <ModelClass> to confirm prototypical inheritance with parent class method exposed via \_super
 > that will allow to override them in models/model/dao.js
 
 ### Model Object helpers
 
 #### Save `<modelObject>.save()`
-> pending
 
-#### Update `<modelObject>.update()`
-> pending
+Convenience method returns promise
 
 #### Validate `<modelObject>.validate()`
-> status: implemented but no tests
+
+Convenience method returns promise
 
 `validate()` is async method and returns a [promise][git-mpromise-url].
 It can be handled in one of two ways as shown below.
@@ -309,9 +303,6 @@ user.validate()
 	    //.. do something with error 
 	});
 ```
-
-#### Helper `<modelObject>.remove()`
-> pending
 
 ## Resources
  
