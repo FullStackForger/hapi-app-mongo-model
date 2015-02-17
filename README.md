@@ -2,7 +2,7 @@
 
 Lightweight abstraction layer over native MongoDB driver for Hapi App
 
-## THIS WORK IN PROGRESS
+> #### WORK IN PROGRESS
 
 ## Rationale
 
@@ -12,7 +12,8 @@ It is build with tone of features such us object schemas and validation.
 
 Mongoose is however unnecesary if you would want to reuse Hapi Joi schemas for validation of your model objects. 
 
-Hapi-app-mongo-model is provides lightweight abstraction on the top of MongoDB native driver.
+Hapi-app-mongo-model is provides lightweight abstraction on the top of Monk,
+which is abstraction over MongoDB native driver.
 
 ## Core features 
 
