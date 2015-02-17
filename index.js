@@ -1,5 +1,5 @@
 var Hoek = require('hoek'),
-	AppModelPlugin = require('./lib/app-model-plugin'),
-	AppModel = require('./lib/app-model');
+	AppModel = module.exports = require('./lib/app-model'),
+	AppModelPlugin;
 
-module.exports = Hoek.merge(AppModel, { plugin: AppModelPlugin });
+AppModel.plugin = require('./lib/app-model-plugin');
