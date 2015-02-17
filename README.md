@@ -2,7 +2,8 @@
 
 Lightweight abstraction layer over native MongoDB driver for Hapi App
 
-> #### WORK IN PROGRESS
+> Current version is stable and used in production 
+> However it is still <b>work in progress</b> 
 
 ## Rationale
 
@@ -33,6 +34,11 @@ which is abstraction over MongoDB native driver.
  	+ `toJSON()`
  	+ `toString()`
  - Ease of extensibility of the Helper and DAO methods ( see examples below )
+
+## Drawbacks
+ 
+> This library leverages from Monk functionality. Thus it requires established db connection before model registration. 
+> Custom models expose monk collection methods, which can only be accessed after connecting to db.
 
 ## Using Hapi App Mongo Model
 
