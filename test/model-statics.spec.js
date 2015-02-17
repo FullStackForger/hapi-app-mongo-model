@@ -12,13 +12,13 @@ var Hapi = require('hapi'),
 	Model = require('../lib/app-model');
 	
 
-describe('model prototype methods', function() {
+describe('model static methods', function() {
 	var NewsModel;
 	
 	before(function (done) {
 		Model.connect({ url: 'mongodb://localhost:27017/test', opts: { 'safe': true } })
 			.then(function() {
-				NewsModel = require('./mocks/news-model');
+				NewsModel = require('../test-mocks/news-model');
 				done();
 			});
 	});
@@ -36,6 +36,8 @@ describe('model prototype methods', function() {
 			.then(function (validated) {
 				expect(validated[0]).to.include(newsData);
 				done();
+			}).onReject(function (error) {
+				done(error);
 			});
 	});
 

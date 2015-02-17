@@ -8,31 +8,24 @@ var Hapi = require('hapi'),
 	describe = lab.describe,
 	it = lab.it,
 	before = lab.before,
+	beforeEach = lab.beforeEach,
 	Model = require('../lib/app-model'),
-	NewsModel = require('./mocks/news-model');
+	NewsModel;
 
 describe('model prototype methods', function() {
 
 	before(function (done) {
-
-		Model.connect({
-
-			url: 'mongodb://localhost:27017/test',
-			opts: {
-				'safe': true,
-				'db': {
-					'native_parser': false
-				}
-			}
-
-		}).then(function() {
-			Model.db.get('news').remove({}, function() {
+		Model.connect({ url: 'mongodb://localhost:27017/test', opts: { 'safe': true } })
+			.then(function() {
+				NewsModel = require('../test-mocks/news-model');
 				done();
 			});
-		});
+	});
 
-		//users = db.get('users-' + Date.now());
-		//indexes = db.get('indexes-' + Date.now());
+	beforeEach(function (done) {
+		Model.db.get('news').remove({}, function() {
+			done();
+		});
 	});
 	
 	it('should create', function (done) {

@@ -1,6 +1,9 @@
 var AppModel = require('../lib/app-model'),
 	Hoek = require('hoek');
 
+
+
+
 AppModel.connect({
 	
 	url: 'mongodb://localhost:27017/test',
@@ -12,7 +15,7 @@ AppModel.connect({
 	}	
 	
 }).then(function(manager) {
-	
+
 	var News = AppModel.register({
 		collection: 'news',
 		path: __dirname + "/models/news"
@@ -60,6 +63,7 @@ AppModel.connect({
 
 	/* 
 	// equivalent to previous one
+	*/
 	var news = {
 		title: 'good news',
 		copy: 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum '
@@ -69,7 +73,7 @@ AppModel.connect({
 	}).onReject(function(error){
 		throw error;
 	});
-	*/
+
 	
 	/* 
 	var news = new News({
