@@ -109,10 +109,43 @@ describe('model static methods', function() {
 					expect(news).to.include(newsData);
 					done();
 				}).onReject(function (error) {
-					throw error;
+					done(error);
 				});
 		});
 		
-	});	
-	
+	});
+
+	it('should find but NOT parse empty document', function (done) {
+		var query = { title: "new title" };
+		NewsModel.findOneAndParse(query)
+			.then(function (news) {
+				expect(news).to.be.null;
+				done();
+			}).onReject(function (error) {
+				done(error);
+			});
+	});
+
+	it('should reject if find and parse one query is invalid', function (done) {
+		var query = { $title: "new title" };
+		NewsModel.findOneAndParse(query)
+			.then(function (news) {
+				done('invalid query has been parsed');
+			}).onReject(function (error) {
+				done();
+			});
+	});
+
+
+	it('should force find (create) document', function (done) {
+		var document = { title: "new title" };
+		NewsModel.forceFind(document)
+			.then(function (doc) {
+				expect(doc.title).to.be.equal(document.title);
+				done()
+			}).onReject(function (error) {
+				done(error);
+			});
+	});
+
 });
