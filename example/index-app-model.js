@@ -89,8 +89,9 @@ AppModel.connect({
 			throw error;
 		});
 	 */
-	
 
+
+	/*
 	var news = [{
 		    title: 'good lorem news',
 		    copy: 'lorem to ipsum lorem to ipsum lorem to ipsum'
@@ -102,8 +103,7 @@ AppModel.connect({
 		.then(function(news) {
 			// returns model object
 			console.log(news.toJSON());
-		});
-	/*
+		});	
 	News.insertAndParse(news)
 		.then(function(news) {
 			// returns array of model objects
