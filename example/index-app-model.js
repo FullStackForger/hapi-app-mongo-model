@@ -90,7 +90,7 @@ AppModel.connect({
 		});
 	 */
 	
-	/*  
+
 	var news = [{
 		    title: 'good lorem news',
 		    copy: 'lorem to ipsum lorem to ipsum lorem to ipsum'
@@ -98,19 +98,19 @@ AppModel.connect({
 			title: 'o babe'
 		}];
 
+	News.insertAndParse(news[0])
+		.then(function(news) {
+			// returns model object
+			console.log(news.toJSON());
+		});
+	/*
 	News.insertAndParse(news)
 		.then(function(news) {
 			// returns array of model objects
 			console.log(news[0].toJSON());
 			console.log(news[1].toJSON());
 		});
-
-	News.insertAndParse(news[0])
-		.then(function(news) {
-			// returns model object
-			console.log(news.toJSON());
-		});
-	 */
+	*/
 	
 	/* 
 	var newsData = { title: 'good lorem news' },

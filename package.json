@@ -29,15 +29,14 @@
     "hapi": "^8.1.0",
     "hoek": "^2.11.0",
     "joi": "^5.1.0",
-    "lab": "^5.2.1",
     "mongodb": "^1.4.29",
-    "monk": "^0.9.1",
+    "monk": "git://github.com/Automattic/monk.git#7fb51e6949",
     "mpromise": "^0.5.5",
     "sinon": "^1.12.2"
   },
   "devDependencies": {
     "code": "^1.2.1",
     "good-console": "^4.1.0",
-    "lab": "^5.2.0"
+	"lab": "^5.2.1"
   }
 }
