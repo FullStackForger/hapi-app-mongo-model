@@ -57,8 +57,9 @@ describe('model static methods', function() {
 		var newsData = { title: "new title", copy: "lorem ipsum mixum twiksum" };
 		NewsModel
 			.insertAndParse(newsData)
-			.then(function (news) {
-				expect(news).to.include(newsData);
+			.then(function (newsObject) {
+console.log(newsObject);
+				expect(newsObject).to.deep.include(newsData);
 				done();
 			}).onReject(function (error) {
 				done(error);
