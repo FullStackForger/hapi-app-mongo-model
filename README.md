@@ -1,4 +1,5 @@
-# Hapi App Mongo Model
+# Hapi App Mongo Model 
+[![Build Status](https://api.travis-ci.org/innocentio/hapi-app-mongo-model.png)](https://travis-ci.org/innocentio/hapi-app-mongo-model)
 
 Lightweight abstraction layer over native MongoDB driver for Hapi App
 
