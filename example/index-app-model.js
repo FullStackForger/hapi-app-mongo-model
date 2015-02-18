@@ -58,18 +58,20 @@ AppModel.connect({
 	})
 	*/
 
-	/* 
+	/*
 	// equivalent to previous one
-	*/
 	var news = {
 		title: 'good news',
 		copy: 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum '
 	};
-	News.forceFind(news).then(function(result) {
-		console.log(result.toJSON());
-	}).onReject(function(error){
-		throw error;
+	News.insert(news, function(error, data) {
+		News.forceFind(news).then(function(newsObject) {
+			console.log(newsObject.toJSON());
+		}).onReject(function(error) {
+			throw error;
+		});
 	});
+	*/
 
 	
 	/* 
