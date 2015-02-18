@@ -20,8 +20,9 @@ which is abstraction over MongoDB native driver.
 
  - It can be used stand-alone or registered as Hapi plugin with `AppModel.plugin` extension
  - It allows to register custom `ModelClass`-es
- - It exposes mongo collection method on custom `ModelClasses`, such us: 
+ - It exposes mongo collection (monk) methods on custom `ModelClasses`, such us: 
  `find()`, `findOne()`, `insert()`, etc.
+ - It allows to create Models before connection is established (no monk drawbacks)
  - It exposes sugar methods (returning promises) on `Model Classes`
  	+ `validate()`, 
  	+ `findAndParse()`, 
@@ -34,11 +35,6 @@ which is abstraction over MongoDB native driver.
  	+ `toJSON()`
  	+ `toString()`
  - Ease of extensibility of the Helper and DAO methods ( see examples below )
-
-## Drawbacks
- 
-> This library leverages from Monk functionality. Thus it requires established db connection before model registration. 
-> Custom models expose monk collection methods, which can only be accessed after connecting to db.
 
 ## Using Hapi App Mongo Model
 
