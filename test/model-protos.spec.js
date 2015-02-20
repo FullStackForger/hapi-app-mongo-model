@@ -12,24 +12,10 @@ var Hapi = require('hapi'),
 	before = lab.before,
 	beforeEach = lab.beforeEach,
 	Model = require('../lib/app-model'),
-	NewsModel;
+	NewsModel,
+	internals = {};
 
-
-describe('model prototype methods', function() {
-	
-	before(function (done) {
-		Model.connect({ url: 'mongodb://localhost:27017/test', opts: { 'safe': true } })
-			.then(function() {
-				NewsModel = require('../test-mocks/news-model');
-				done();
-			});
-	});
-
-	beforeEach(function (done) {
-		Model.db.get('news').remove({}, function() {
-			done();
-		});
-	});
+internals.executeTests = function() {
 	
 	it('should create', function (done) {
 		var newsData = { title: 'new title', copy: 'lorem ipsum' },
@@ -145,4 +131,32 @@ describe('model prototype methods', function() {
 		expect(news.toString()).to.be.equal(JSON.stringify(newsData));
 		done();
 	});
+};
+
+describe('model prototype methods (Model created before db connection)', function() {
+
+	before(function (done) {
+		NewsModel = require('../test-mocks/news-model');
+		Model.connect({ url: 'mongodb://localhost:27017/test', opts: { 'safe': true } })
+			.then(function () {
+				done();
+			});
+	});
+
+	internals.executeTests();
+
+});
+
+describe('model prototype methods (Model created after db connection)', function() {
+
+	before(function (done) {
+		Model.connect({ url: 'mongodb://localhost:27017/test', opts: { 'safe': true } })
+			.then(function () {
+				NewsModel = require('../test-mocks/news-model');
+				done();
+			});
+	});
+
+	internals.executeTests();
+
 });
