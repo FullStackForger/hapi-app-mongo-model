@@ -27,6 +27,31 @@ describe('Model Factory Connections', function () {
 			});
 	});
 
+	it('should close connection if available', function (done) {
+		Model
+			.connect({ url: 'mongodb://localhost:27017/test', opts: { 'safe': true } })
+			.then(Model.disconnect)
+			.then(function () {
+				done()
+			})
+			.onReject(function (error) {
+				done(error);
+			});
+	});
+
+	it('should refuse to close connection if there isn\'t one', function (done) {
+		Model.db = null;
+
+		Model.disconnect()
+			.then(function () {
+				done('There is no connection to be closed')
+			})
+			.onReject(function (error) {
+				expect(error).to.exist();
+				done();
+			});
+	});
+	
 	it('should establish default database connection', function (done) {
 		Model
 			.connect()
