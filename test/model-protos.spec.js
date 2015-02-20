@@ -71,7 +71,7 @@ internals.executeTests = function() {
 		done();
 	});
 
-	it('should save', function (done) {
+	it('should save model data', function (done) {
 		var news = new NewsModel({ title: 'new title', copy: 'lorem ipsum' });
 
 		news.title = 'title changed';
@@ -79,6 +79,24 @@ internals.executeTests = function() {
 			.then(function(news) {
 				expect(news.title).to.be.equal('title changed');
 			});
+		done();
+	});
+
+	it('should save model object', function (done) {
+		var news = new NewsModel({ title: 'new title', copy: 'lorem ipsum' });
+
+		news.title = 'title changed';
+		news.save()
+			.then(function() {
+				return news.save();
+			})
+			.then(function(news) {
+				expect(news.title).to.be.equal('title changed');
+			})
+			.onReject(function(error) {
+				expect(error).to.not.exist;
+			});
+		
 		done();
 	});
 
