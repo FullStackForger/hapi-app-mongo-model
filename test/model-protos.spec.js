@@ -11,7 +11,7 @@ var Hapi = require('hapi'),
 	after = lab.after,
 	before = lab.before,
 	beforeEach = lab.beforeEach,
-	Model = require('../lib/app-model'),
+	Model,
 	NewsModel,
 	internals = {};
 
@@ -134,9 +134,15 @@ internals.executeTests = function() {
 };
 
 describe('model prototype methods (Model created before db connection)', function() {
-
+	// forces to unload the News module
+	delete require.cache[require.resolve('../test-mocks/news-model')];
+	delete require.cache[require.resolve('../lib/app-model')];
+	
 	before(function (done) {
+		Model.db = null;
+		
 		NewsModel = require('../test-mocks/news-model');
+		Model = require('../lib/app-model');
 		Model.connect({ url: 'mongodb://localhost:27017/test', opts: { 'safe': true } })
 			.then(function () {
 				done();
@@ -148,7 +154,11 @@ describe('model prototype methods (Model created before db connection)', functio
 });
 
 describe('model prototype methods (Model created after db connection)', function() {
-
+	// forces to unload the News module
+	delete require.cache[require.resolve('../test-mocks/news-model')];
+	delete require.cache[require.resolve('../lib/app-model')];
+	Model = require('../lib/app-model');
+	
 	before(function (done) {
 		Model.connect({ url: 'mongodb://localhost:27017/test', opts: { 'safe': true } })
 			.then(function () {
