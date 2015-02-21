@@ -111,29 +111,89 @@ internals.executeTests = function() {
 			});
 	});
 
-	it('should reject save when db error occurs', function (done) {
-		var news = new NewsModel({ title: 'new title', copy: 'lorem ipsum' }),
-			findAndModifyStub;
+	it('should handle findOne db error while saving new object', function (done) {
+		var news = new NewsModel({
+				title: 'Some new title' + (new Date()).getTime(),
+				copy: 'lorem ipsum twipsum pitsum'
+			}),
+			findOneStub;
 
-		findAndModifyStub = Sinon.stub(require('monk').Collection.prototype, "findAndModify", function () {
+		findOneStub = Sinon.stub(require('monk').Collection.prototype, "findOne", function () {
 			arguments[arguments.length - 1]("Error occurred", null);
 		});
 
 		function complete(msg) {
-			findAndModifyStub.restore();
+			findOneStub.restore();
 			done(msg);
 		}
 
+		// save will findOne document 1st
+		news.save()
+			.then(function() {
+				complete("model has been marked as saved with db error");
+			}).onReject(function (error) {
+				expect(error).to.not.be.null;
+				complete();
+			});
+	});
+	
+	it('should handle error while saving new object', function (done) {
+		var news = new NewsModel({ 
+				title: 'Some new title' + (new Date()).getTime(),
+				copy: 'lorem ipsum twipsum pitsum' 
+			}),
+			insertStub;
+
+		insertStub = Sinon.stub(require('monk').Collection.prototype, "insert", function () {
+			arguments[arguments.length - 1]("Error occurred", null);
+		});		
+
+		function complete(msg) {
+			insertStub.restore();
+			done(msg);
+		}
+		
+		// save will insert new document
 		news.save()
 			.then(function(news) {
-				complete("model has been marked as inserted in spite of database error");
+				complete("model has been marked as saved with db error");
 			}).onReject(function (error) {
 				expect(error).to.not.be.null;
 				complete();
 			});
 	});
 
-	
+	it('should handle error while saving existing object', function (done) {
+		var news = new NewsModel({
+				title: 'Some new title' + (new Date()).getTime(),
+				copy: 'lorem ipsum twipsum pitsum'
+			}),
+			updateStub;
+
+		updateStub = Sinon.stub(require('monk').Collection.prototype, "update", function () {
+			arguments[arguments.length - 1]("Error occurred", null);
+		});
+
+		function complete(msg) {
+			updateStub.restore();
+			done(msg);
+		}
+
+		// 1st save will insert new document
+		news.save()
+			.then(function(news) {
+				debugger;
+				// 2nd save will update existing document
+				return news.save();
+			})
+			.then(function(news) {
+				complete("model has been marked as saved with db error");
+			}).onReject(function (error) {
+				expect(error).to.not.be.null;
+				complete();
+			});
+	});
+
 	it('should turn to JSON', function (done) {
 		var newsData = { title: 'new title', copy: 'lorem ipsum' },
 			news = new NewsModel(newsData);
