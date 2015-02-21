@@ -1,6 +1,6 @@
 {
   "name": "hapi-app-mongo-model",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Lightweight abstraction layer over native MongoDB driver for Hapi App",
   "main": "index.js",
   "directories": {
