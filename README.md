@@ -1,7 +1,7 @@
 # Hapi App Mongo Model 
 [![Build Status](https://api.travis-ci.org/innocentio/hapi-app-mongo-model.png)](https://travis-ci.org/innocentio/hapi-app-mongo-model)
 
-Lightweight abstraction layer over native MongoDB driver for Hapi App
+Lightweight abstraction layer wrapping Monk api (MongoDB library)
 
 > Current version is stable and used in production 
 > However it is still <b>work in progress</b> 
@@ -12,7 +12,7 @@ Most popular ODM for MongoDB manipulations from NodeJS is Mongoose.
 It is build on the top of MongoDB's native driver.
 It is build with tone of features such us object schemas and validation.
 
-Mongoose is however unnecesary if you would want to reuse Hapi Joi schemas for validation of your model objects. 
+Mongoose is however unnecesary if you would want to reuse Hapi Joi schemas for validation of your model objects or need lower level apis without package overhead.
 
 Hapi-app-mongo-model is provides lightweight abstraction on the top of Monk,
 which is abstraction over MongoDB native driver.
@@ -320,7 +320,7 @@ user.validate()
  - [Hapi][hapijs-url] - A rich framework for building applications and services
  - [Hoek][hapijs-hoek-url] - Utility methods for the hapi ecosystem
  - [Good][hapijs-good-url] - Hapi process monitoring
- - [Boom][[hapijs-boom-url] - HTTP-friendly error objects
+ - [Boom][hapijs-boom-url] - HTTP-friendly error objects
  - [Joi][hapijs-joi-url] - Object schema description language and validator for JavaScript objects.
 
 ### Used packages
@@ -333,6 +333,7 @@ user.validate()
 [hapijs]: https://github.com/hapijs/good
 [hapijs-url]: http://hapijs.com
 [hapijs-hoek-url]: https://github.com/hapijs/hoek
+[hapijs-good-url]: https://github.com/hapijs/good
 [hapijs-joi-url]: https://github.com/hapijs/joi
 [hapijs-boom-url]: https://github.com/hapijs/boom
 
