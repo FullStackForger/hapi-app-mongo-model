@@ -95,7 +95,7 @@ describe('model static methods', function() {
 			});
 	});
 
-	it('should insert and parse multiple', function (done) {
+	it('should insert and parse multiple', {only: true}, function (done) {
 		var newsData = [
 			{ title: "new title 1", copy: "lorem ipsum mixum twiksum" },
 			{ title: "new title 2", copy: "lorem ipsum mixum twiksum" }
@@ -113,7 +113,7 @@ describe('model static methods', function() {
 	});
 
 	it('should NOT insert and parse invalid data', function (done) {
-		var newsData = { illigal_property: "" };
+		var newsData = { illegal_property: "" };
 		NewsModel
 			.insertAndParse(newsData)
 			.then(function () {
