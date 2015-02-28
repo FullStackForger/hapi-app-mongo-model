@@ -191,7 +191,7 @@ describe('model static methods', function() {
 		var query = { $title: "new title" };
 
 		NewsModel.findAndParse(query)
-			.then(function ("news") {
+			.then(function () {
 				console.log('news');
 				done('Find and Parse allowed INVALID query');
 			}).onReject(function (error){
