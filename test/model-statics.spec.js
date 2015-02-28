@@ -187,13 +187,15 @@ describe('model static methods', function() {
 		});
 	});
 
-	it('should reject find and parse with invalid query', function (done) {
+	it('should reject find and parse with invalid query', {only: true}, function (done) {
 		var query = { $title: "new title" };
 
 		NewsModel.findAndParse(query)
-			.then(function (news) {
+			.then(function ("news") {
+				console.log('news');
 				done('Find and Parse allowed INVALID query');
 			}).onReject(function (error){
+				console.log("error");
 				expect(error).to.not.be.empty;
 				done();
 			});
