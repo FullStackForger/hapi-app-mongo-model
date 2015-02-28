@@ -10,23 +10,25 @@ var Hapi = require('hapi'),
 	it = lab.it,
 	before = lab.before,
 	beforeEach = lab.beforeEach,
-	Model = require('../lib/app-model');
+	Model = require('../lib/app-model'),
+	NewsModel = require('../test-mocks/news-model');
 	
 
 describe('model static methods', function() {
-	var NewsModel;
 	
 	before(function (done) {
 		Model.connect({ url: 'mongodb://localhost:27017/test', opts: { 'safe': true } })
-			.then(function() {
-				NewsModel = require('../test-mocks/news-model');
+			.then(function () {
 				done();
+			}).onReject(function (error) {
+				done(error);
 			});
 	});
 
 	beforeEach(function (done) {
-		Model.db.get('news').remove({}, function() {
-			done();
+		Model.db.get('news').remove({}, function(error, result) {
+			if (error) return done(error);
+			done();			
 		});
 	});
 	
