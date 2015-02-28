@@ -151,7 +151,7 @@ describe('model static methods', function() {
 			insertData = [ Hoek.merge({}, newsData), Hoek.merge({}, newsData), Hoek.merge({}, newsData) ];
 
 		NewsModel.insert(insertData, function(error, result) {
-			if (error) done(new Error(error));
+			if (error) return done(new Error(error));
 
 			NewsModel.findAndParse(query)
 				.then(function (news) {
@@ -171,7 +171,7 @@ describe('model static methods', function() {
 			insertData = [ Hoek.merge({}, newsData), Hoek.merge({}, newsData), Hoek.merge({}, newsData) ];
 
 		NewsModel.insert(insertData, function(error, result) {
-			if (error) done(new Error(error));
+			if (error) return done(new Error(error));
 
 			NewsModel.findAndParse(query, {})
 				.then(function (news) {
@@ -204,7 +204,7 @@ describe('model static methods', function() {
 			insertData = [ Hoek.merge({}, newsData), Hoek.merge({}, newsData) ];
 
 		NewsModel.insert(insertData, function(error, result) {
-			if (error) done(error);
+			if (error) return done(error);
 
 			NewsModel.findOneAndParse(query)
 				.then(function (news) {
@@ -223,7 +223,7 @@ describe('model static methods', function() {
 			insertData = [ Hoek.merge({}, newsData), Hoek.merge({}, newsData) ];
 
 		NewsModel.insert(insertData, function(error, result) {
-			if (error) done(error);
+			if (error) return done(error);
 
 			NewsModel.findOneAndParse(query, {})
 				.then(function (news) {
