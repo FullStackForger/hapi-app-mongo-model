@@ -83,7 +83,7 @@ describe('model static methods', function() {
 			});
 	});	
 	
-	it('should insert and parse', function (done) {
+	it('should insert and parse', {only: true}, function (done) {
 		var newsData = { title: "new title", copy: "lorem ipsum mixum twiksum" };
 		NewsModel
 			.insertAndParse(newsData)
@@ -95,7 +95,7 @@ describe('model static methods', function() {
 			});
 	});
 
-	it('should insert and parse multiple', {only: true}, function (done) {
+	it('should insert and parse multiple', function (done) {
 		var newsData = [
 			{ title: "new title 1", copy: "lorem ipsum mixum twiksum" },
 			{ title: "new title 2", copy: "lorem ipsum mixum twiksum" }
