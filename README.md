@@ -1,5 +1,5 @@
 # Hapi App Mongo Model 
-[![Build Status](https://api.travis-ci.org/innocentio/hapi-app-mongo-model.png)](https://travis-ci.org/innocentio/hapi-app-mongo-model)
+[![Build Status](https://travis-ci.org/indieforger/hapi-app-mongo-model.svg)](https://travis-ci.org/indieforger/hapi-app-mongo-model)
 
 Lightweight abstraction layer wrapping Monk api (MongoDB library)
 
@@ -307,13 +307,6 @@ user.validate()
 	    //.. do something with error 
 	});
 ```
-
-## Resources
- 
-> BIG **THANK YOU** TO ALL THE AUTHORS FOR DEVELOPING THOSE GREAT PACKAGES, FOR MAKING CODING EASIER, FASTER AND MORE FUN! 
-> 
-> **CHEEERIO!!!**
-
 
 #### Used HapiJs package
 
