@@ -5,8 +5,8 @@
 
 Lightweight abstraction layer wrapping Monk api (MongoDB library)
 
-> Current version is stable and used in production 
-> However it is still <b>work in progress</b> 
+> This package is not actively maintained. You should probably check out  [hapi-mongo-models](https://github.com/jedireza/hapi-mongo-models)
+
 
 ## Rationale
 
