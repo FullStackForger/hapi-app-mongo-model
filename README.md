@@ -1,5 +1,7 @@
 # Hapi App Mongo Model 
-[![Build Status](https://travis-ci.org/indieforger/hapi-app-mongo-model.svg)](https://travis-ci.org/indieforger/hapi-app-mongo-model)
+[![build status](https://travis-ci.org/indieforger/hapi-app-mongo-model.svg)](https://travis-ci.org/indieforger/hapi-app-mongo-model)
+[![dependencies](https://david-dm.org/indieforger/hapi-app-mongo-model.svg)](https://david-dm.org/indieforger/hapi-app-mongo-model#info=dependencies&view=table)
+[![dev dependencies](https://david-dm.org/indieforger/hapi-app-mongo-model/dev-status.svg)](https://david-dm.org/indieforger/hapi-app-mongo-model#info=devDependencies&view=table)
 
 Lightweight abstraction layer wrapping Monk api (MongoDB library)
 
